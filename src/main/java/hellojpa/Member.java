@@ -3,6 +3,9 @@ package hellojpa;
 import jakarta.persistence.*;
 import lombok.Getter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 public class Member {
@@ -21,11 +24,19 @@ public class Member {
     @JoinColumn(name = "TEAM_ID")
     private Team team;
 
+//    @ManyToMany
+//    @JoinTable(name = "MEMBER_PRODUCT")
+//    private List<Product> products = new ArrayList<>();
+
+    // 연관관계 편의 메서드 생성
+
+    @OneToMany(mappedBy = "member")
+    private List<MemberProduct> memberProducts = new ArrayList<>();
+
     public void setUsername(String username) {
         this.username = username;
     }
 
-    // 연관관계 편의 메서드 생성
     public void changeTeam(Team team) {
         this.team = team;
         team.getMembers().add(this);
